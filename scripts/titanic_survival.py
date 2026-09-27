@@ -204,3 +204,31 @@ print(classification_report(y_test, y_pred_svm))
 #     accuracy                           0.83       178
 #    macro avg       0.82      0.81      0.81       178
 # weighted avg       0.82      0.83      0.82       178
+
+
+# Cross Validation
+df
+x = df.drop("survived", axis=1)
+y = df["survived"]
+
+from sklearn.model_selection import cross_val_score
+
+scaler = StandardScaler()
+x_scaled = scaler.fit_transform(x)
+
+scores = cross_val_score(model_svm, x_scaled, y, cv=5, scoring="accuracy")
+# array([0.83146067, 0.82022472, 0.81460674, 0.80898876, 0.86440678])
+print(scores.mean())
+# 0.8279375357074844
+
+scores = cross_val_score(knn_model, x_scaled, y, cv=5, scoring="accuracy")
+print(scores.mean())
+# 0.7986542245921411
+
+scores = cross_val_score(model_DT, x_scaled, y, cv=5, scoring="accuracy")
+print(scores.mean())
+# 0.7975623690725577
+
+scores = cross_val_score(model_NB, x_scaled, y, cv=5, scoring="accuracy")
+print(scores.mean())
+# 0.7840474830191074
